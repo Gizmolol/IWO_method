@@ -12,73 +12,32 @@ double Grivanka (vector<double> x) {
 		sum += x[i - 1] * x[i - 1];
 		mult *= cos (x[i - 1] / sqrt (i));
 	}
-	return 1 + sum / 400 - mult;
+	return -(1 + sum / 400 - mult);
 }
 
 int main ()
 {
-	some_test test = some_test (Grivanka, 10, 20, -20, 500, 100, 5, 1, 5, 1, 1000);
+	/*int low = 0;
+	int high = 0;
+	int mid = 0;
+	for (int i = 0; i < 10000; i++) {
+		int tmp = some_test::gen (0, 50);
+		if (tmp < 15) {
+			low++;
+		}
+		else if (tmp > 35) {
+			high++;
+		}
+		else {
+			mid++;
+		}
+	}
+	cout << low << "  " << mid << "  " << high;*/
+	double h = 5.05;
+	for (int i = 0; i < 20; i++) {
+		cout << i << endl;
+		some_test test = some_test (Grivanka, 10, 20, -20, 600, 100, 6, 1, 10, 1.5, 100);
+		cout << endl;
+		//h -= 0.25;
+	}
 }
-
-
-//import random
-//import numpy as np
-//
-//def sort (x, f) :
-//    k = 1
-//    while k > 0:
-//k = 0
-//for i in range (len (f) - 1) :
-//    if f[i] > f[i + 1]:
-//temp = f[i]
-//f[i] = f[i + 1]
-//f[i + 1] = temp
-//temp = x[i]
-//x[i] = x[i + 1]
-//x[i + 1] = temp
-//k += 1
-//
-//
-//def IWO (func, s0, smax, nmin, nmax, sigma_b, sigma_e, Xmin, Xmax, m, tmax, teoretic_x) :
-//    X = []
-//    for i in range (s0) : # Блок инициализации
-//        xi = []
-//        for j in range (len (Xmin)) :
-//            xi.append (Xmin[j] + random.random () * (Xmax[j] - Xmin[j]))
-//            X.append (xi)
-//            f = []
-//            for xi in X :
-//f.append (func (xi))
-//t = 0
-//while t <= tmax :
-//    n = []  # Блок генерации семян
-//    fbest = min (f)
-//    fworst = max (f)
-//    for fi in f :
-//n.append (round (fi * (nmax - nmin) / (fbest - fworst) + (fbest * nmin - fworst * nmax) / (fbest - fworst)))
-//Xnew = []
-//sigma = (((tmax - t) / tmax) * *m) * (sigma_b - sigma_e) + sigma_e
-//for k in range (len (X)) :
-//    for i in range (n[k]) :
-//        xj = []
-//        for j in range (len (X[k])) :
-//            xj.append (X[k][j] + np.random.normal (0, sigma))
-//            xj = np.clip (xj, Xmin, Xmax)
-//            Xnew.append (xj)
-//            X = X + Xnew
-//
-//            f = []  # Блок конкурентного исключения
-//            for xi in X :
-//f.append (func (xi))
-//sort (X, f)
-//if len (X) > smax:
-//X = X[:smax]
-//f = f[:smax]
-//t += 1
-//if np.linalg.norm (np.array (X[0]) - np.array (teoretic_x)) < 1e-2 * len (teoretic_x) :
-//    return[X[0], True, t]
-//    # print ("Поколение {}: {} {} {}".format (t, max (f), min (f), np.mean (f)))
-//
-//    return[X[0], False, tmax]
-
-
