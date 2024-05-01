@@ -1,11 +1,17 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <ctime>
 #pragma once
 
 using namespace std;
 
-class some_test
+extern int work_time;
+extern int call_counter;
+extern int iteration_real;
+extern double average_best;
+
+class Method
 {
 	struct Single_Weed {
 		vector<double> coord = { 0 };
@@ -15,7 +21,7 @@ class some_test
 
 	
 	public:
-		some_test (double(*funk)(vector<double>),
+		Method (double(*funk)(vector<double>),
 			const int    coordinates_number,
 			const double max_coordinate,
 			const double min_coordinate,
@@ -26,6 +32,7 @@ class some_test
 			const double dispersion_max,
 			const double dispersion_min,
 			const int    iteration_max) {
+			start_time = clock ();
 			srand (time (0));
 			coordinates = coordinates_number;
 			range_max = max_coordinate;
@@ -40,6 +47,7 @@ class some_test
 
 			if (min_number_seeds < 1) min_number_seeds = 1;
 			if (number_weeds * min_number_seeds > number_seeds) number_weeds = number_seeds / min_number_seeds;
+			if (number_seeds < (number_weeds * max_number_seeds)) max_number_seeds = number_seeds / number_weeds;
 
 			total_weeds = number_weeds + number_seeds;
 
@@ -51,7 +59,7 @@ class some_test
 			{
 				weeds[i].coord.resize (coordinates);
 				for (int j = 0; j < coordinates; j++) {
-					weeds[i].coord[j] = RandDouble (teor_x + max_dispersion, teor_x - max_dispersion);
+					weeds[i].coord[j] = RandDouble (range_max, range_min);
 				}
 				weeds[i].f = funk (weeds[i].coord);
 				if (weeds[i].f < current_best_f) {
@@ -71,8 +79,11 @@ class some_test
 			for (int i = 0; i < number_weeds; i++) {
 				weeds[i].seeds = max_number_seeds;
 			}
+
 			Selection ();
+
 			Work (funk);
+
 		}
 	private:
 		vector<Single_Weed> weeds; //weeds
@@ -91,20 +102,27 @@ class some_test
 		int    min_number_seeds = 0;    //Minimum number of seeds
 		double max_dispersion = 0;     //Maximum dispersion
 		double min_dispersion = 0;     //Minimum dispersion
-		int    max_iteration = 0;      //Maximum iterations
+		double    max_iteration = 0;      //Maximum iterations
 		int	   current_iter = 0;
-		double teor_x = 1;  //WARNING-------------WARNING-----------WARNING-----------
+		int start_time = 0;
 
 		void Work (double(*funk)(vector<double>)) {
 			while (current_iter < max_iteration) {
 				Reproduction (funk);
 				Selection ();
+				if (best_f < 0.001) {
+					break;
+				}
 				current_iter++;
+				iteration_real++;
 			}
-			for (int i = 0; i < coordinates; i++) {
+			work_time += clock() - start_time;
+			average_best += best_f;
+			/*for (int i = 0; i < coordinates; i++) {
 				cout << best_coordinates[i] << "  ";
-			}
-			cout << endl << best_f << endl;
+			}*/
+
+			//cout << best_f << endl;
 		}
 		void Reproduction (double(*funk)(vector<double>)) {
 			int current_number_seeds = 0;
@@ -134,12 +152,13 @@ class some_test
 						weeds[current_seed].coord[k] = tmp;
 
 					}
-
 					weeds[current_seed].f = funk (weeds[current_seed].coord);
 					current_seed++;
 				}
 			}
 		}
+
+		
 		void Selection () {
 			sort (weeds.begin (), weeds.end (),
 				[](Single_Weed a, Single_Weed b) {
@@ -156,15 +175,6 @@ class some_test
 
 	double RandDouble (double mx, double mn) {
 		return mn + (mx - mn) * (rand () % RAND_MAX) / RAND_MAX;
-	}
-
-	public: static double gen (double mn, double mx) { // не используйте min max это функции из cmath
-		double dx = mx - mn;
-		double accur = 1e6;
-		int fmx = dx * accur;
-		double t = rand () % fmx;
-		t /= accur;
-		return mn + t;
 	}
 };
 
