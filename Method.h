@@ -110,9 +110,9 @@ class Method
 			while (current_iter < max_iteration) {
 				Reproduction (funk);
 				Selection ();
-				if (best_f < 0.001) {
+				/*if (best_f < 0.001) {
 					break;
-				}
+				}*/
 				current_iter++;
 				iteration_real++;
 			}
@@ -135,7 +135,7 @@ class Method
 
 			}
 
-			double dispertion = pow ((max_iteration - current_iter) / max_iteration, 2) * (max_dispersion - min_dispersion) + min_dispersion;
+			double dispertion = pow ((max_iteration - current_iter) / max_iteration, 2) * (max_dispersion - min_dispersion) + min_dispersion * ChaoticMap(current_iter);
 
 			//выращивание семян
 			int current_seed = number_weeds;
@@ -143,6 +143,7 @@ class Method
 				for (int j = 0; j < weeds[i].seeds; j++) {
 					for (int k = 0; k < coordinates; k++) {
 						double tmp = RandDouble (weeds[i].coord[k] + dispertion, weeds[i].coord[k] - dispertion);
+						tmp = dispertion * tmp + (weeds[0].coord[k] - tmp);
 						if (tmp > range_max) {
 							tmp = range_max;
 						}
@@ -174,7 +175,15 @@ class Method
 		};
 
 	double RandDouble (double mx, double mn) {
-		return mn + (mx - mn) * (rand () % RAND_MAX) / RAND_MAX;
+		return (mn / 2 + (mx / 2 - mn / 2) * (rand () % RAND_MAX) / RAND_MAX) + (mn / 2 + (mx / 2 - mn / 2) * (rand () % RAND_MAX) / RAND_MAX);
+	}
+
+	double ChaoticMap (int iter) {
+		double x_j = (rand () % RAND_MAX) / RAND_MAX;
+		for (int i = 0; i < iter; i++) {
+			x_j = 4 * x_j * (1 - x_j);
+		}
+		return  x_j;
 	}
 };
 

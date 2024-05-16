@@ -37,7 +37,7 @@ void tests (int size1, double maximal1, double minimal1, int max_first_seeds1, i
 
 int main ()
 {
-	int f_size = 5;
+	int f_size = 100;
 	double maximal = 20;
 	double minimal = -20;
 	int max_first_seeds = 500;
@@ -49,7 +49,7 @@ int main ()
 	int max_iter = 100;
 	//идеальный случай
 	tests (f_size, maximal, minimal, max_first_seeds, max_weeds, max_seed, min_seed, max_disp, min_disp, max_iter);
-	 
+	/*
 	//размер целевой функции
 	tests (1, maximal, minimal, max_first_seeds, max_weeds, max_seed, min_seed, max_disp, min_disp, max_iter);
 	tests (3, maximal, minimal, max_first_seeds, max_weeds, max_seed, min_seed, max_disp, min_disp, max_iter);
@@ -104,5 +104,5 @@ int main ()
 	tests (f_size, maximal, minimal, max_first_seeds, max_weeds, max_seed, min_seed, max_disp, min_disp, 10);
 	tests (f_size, maximal, minimal, max_first_seeds, max_weeds, max_seed, min_seed, max_disp, min_disp, 500);
 	tests (f_size, maximal, minimal, max_first_seeds, max_weeds, max_seed, min_seed, max_disp, min_disp, 700);
-	tests (f_size, maximal, minimal, max_first_seeds, max_weeds, max_seed, min_seed, max_disp, min_disp, 1000);
+	tests (f_size, maximal, minimal, max_first_seeds, max_weeds, max_seed, min_seed, max_disp, min_disp, 1000);*/
 }
