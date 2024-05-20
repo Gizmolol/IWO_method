@@ -22,9 +22,18 @@ double Grivanka (vector<double> x) {
 	return 1 + sum / 400 - mult;
 }
 
+double Stibinsky (vector<double> x) {
+	double sum = 0;
+	for (int i = 0; i < x.size (); i++) {
+		sum += pow(x[i], 4) - 16 * x[i] * x[i] + 5 * x[i];
+	}
+	call_counter++;
+	return sum / 2;
+}
+
 void tests (int size1, double maximal1, double minimal1, int max_first_seeds1, int max_weeds1, int max_seed1, int min_seed1, double max_disp1, double min_disp1, int max_iter1) {
 	for (int i = 0; i < N; i++) {
-		Method test = Method (Grivanka, size1, maximal1, minimal1, max_first_seeds1, max_weeds1, max_seed1, min_seed1, max_disp1, min_disp1, max_iter1);
+		Method test = Method (Stibinsky, size1, maximal1, minimal1, max_first_seeds1, max_weeds1, max_seed1, min_seed1, max_disp1, min_disp1, max_iter1);
 	}
 	cout << size1 << " " << maximal1 << " " << minimal1 << " " << max_first_seeds1 << " " << max_weeds1 << " " << max_seed1 << " " << min_seed1 << " " << max_disp1 << " " << min_disp1 << " " << max_iter1 << endl;
 	cout << work_time / N << "  " << call_counter / N << "  " << iteration_real / N << "  " << average_best / N;
@@ -37,14 +46,14 @@ void tests (int size1, double maximal1, double minimal1, int max_first_seeds1, i
 
 int main ()
 {
-	int f_size = 100;
-	double maximal = 20;
-	double minimal = -20;
+	int f_size = 10;
+	double maximal = 5.12;
+	double minimal = -5.12;
 	int max_first_seeds = 500;
 	int max_weeds = 100;
 	int max_seed = 5;
 	int min_seed = 1;
-	double max_disp = 10;
+	double max_disp = 5;
 	double min_disp = 0.1;
 	int max_iter = 100;
 	//идеальный случай

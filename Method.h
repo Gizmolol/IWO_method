@@ -118,11 +118,12 @@ class Method
 			}
 			work_time += clock() - start_time;
 			average_best += best_f;
-			/*for (int i = 0; i < coordinates; i++) {
+			for (int i = 0; i < 10; i++) {
 				cout << best_coordinates[i] << "  ";
-			}*/
-
-			//cout << best_f << endl;
+			}
+			cout << endl;
+			cout << best_f;
+			cout << endl;
 		}
 		void Reproduction (double(*funk)(vector<double>)) {
 			int current_number_seeds = 0;
@@ -135,7 +136,7 @@ class Method
 
 			}
 
-			double dispertion = pow ((max_iteration - current_iter) / max_iteration, 2) * (max_dispersion - min_dispersion) + min_dispersion * ChaoticMap(current_iter);
+			double dispertion = pow ((max_iteration - current_iter) / max_iteration, 3) * (max_dispersion - min_dispersion) + min_dispersion * ChaoticMap(current_iter);
 
 			//выращивание семян
 			int current_seed = number_weeds;
@@ -143,7 +144,7 @@ class Method
 				for (int j = 0; j < weeds[i].seeds; j++) {
 					for (int k = 0; k < coordinates; k++) {
 						double tmp = RandDouble (weeds[i].coord[k] + dispertion, weeds[i].coord[k] - dispertion);
-						tmp = dispertion * tmp + (weeds[0].coord[k] - tmp);
+						tmp = dispertion * tmp + (best_coordinates[k] - tmp);
 						if (tmp > range_max) {
 							tmp = range_max;
 						}
